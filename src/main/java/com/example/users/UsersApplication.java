@@ -2,9 +2,8 @@ package com.example.users;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.kafka.annotation.EnableKafka;
-
-@EnableKafka
+import org.springframework.cache.annotation.EnableCaching;
+@EnableCaching
 @SpringBootApplication
 public class UsersApplication {
     public static void main(String[] args) {

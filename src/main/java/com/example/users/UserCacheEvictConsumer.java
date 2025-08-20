@@ -1,10 +1,12 @@
 package com.example.users;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Optional;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.data.redis.listener.ChannelTopic;
@@ -14,13 +16,11 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class UserConsumer implements MessageListener {
-    private final UserRepository repository;
-    private final UserCacheEvictProducer cacheEvictProducer;
+public class UserCacheEvictConsumer implements MessageListener {
+    private final CacheManager cacheManager;
     private final RedisMessageListenerContainer container;
-    private final ObjectMapper objectMapper;
 
-    @Value("${user.topic.name:users}")
+    @Value("${user.cache.evict.topic:user-cache-evict}")
     private String topic;
 
     @PostConstruct
@@ -30,13 +30,8 @@ public class UserConsumer implements MessageListener {
 
     @Override
     public void onMessage(Message message, byte[] pattern) {
-        try {
-            User user = objectMapper.readValue(message.getBody(), User.class);
-            log.info("Persisting user {} from redis", user.getName());
-            repository.save(user);
-            cacheEvictProducer.evictUsersCache();
-        } catch (Exception e) {
-            log.error("Failed to process message", e);
-        }
+        String cacheName = new String(message.getBody());
+        log.info("Evicting cache {} based on message", cacheName);
+        Optional.ofNullable(cacheManager.getCache(cacheName)).ifPresent(Cache::clear);
     }
 }
