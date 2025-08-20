@@ -14,9 +14,10 @@ public class UserController {
     private final UserService service;
 
     @PostMapping
-    public User create(@RequestBody User user) {
+    public ResponseEntity<Void> create(@RequestBody User user) {
         log.info("Received request to create user {}", user.getName());
-        return service.create(user);
+        service.create(user);
+        return ResponseEntity.accepted().build();
     }
 
     @GetMapping

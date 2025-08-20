@@ -10,10 +10,11 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository repository;
+    private final UserProducer producer;
 
-    public User create(User user) {
-        log.info("Creating user {}", user.getName());
-        return repository.save(user);
+    public void create(User user) {
+        log.info("Queuing creation of user {}", user.getName());
+        producer.sendUser(user);
     }
 
     public List<User> findAll() {
