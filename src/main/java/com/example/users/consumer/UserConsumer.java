@@ -1,5 +1,8 @@
-package com.example.users;
+package com.example.users.consumer;
 
+import com.example.users.model.User;
+import com.example.users.producer.UserCacheEvictProducer;
+import com.example.users.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
