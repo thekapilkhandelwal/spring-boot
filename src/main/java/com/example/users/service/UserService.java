@@ -1,5 +1,9 @@
-package com.example.users;
+package com.example.users.service;
 
+import com.example.users.model.User;
+import com.example.users.producer.UserCacheEvictProducer;
+import com.example.users.producer.UserProducer;
+import com.example.users.repository.UserRepository;
 import java.util.List;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;

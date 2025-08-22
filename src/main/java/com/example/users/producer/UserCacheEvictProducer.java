@@ -1,4 +1,4 @@
-package com.example.users;
+package com.example.users.producer;
 
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;

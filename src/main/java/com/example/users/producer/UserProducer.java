@@ -1,5 +1,6 @@
-package com.example.users;
+package com.example.users.producer;
 
+import com.example.users.model.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;

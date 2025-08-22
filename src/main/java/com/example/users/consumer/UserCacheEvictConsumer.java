@@ -1,4 +1,4 @@
-package com.example.users;
+package com.example.users.consumer;
 
 import java.util.Optional;
 import jakarta.annotation.PostConstruct;
